@@ -1,0 +1,5 @@
+node_modules
+public/js/dist
+public/js/vendor
+spec/unit/specs.js
+config.json

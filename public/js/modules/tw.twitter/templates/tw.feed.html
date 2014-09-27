@@ -1,0 +1,13 @@
+<div class="twitter feed">
+  <div ng-transclude></div>
+  <div class="tweet empty" ng-show="!tweets.length">No tweet streamed yet.</div>
+  <ul class="tweets">
+    <li class="tweet" ng-repeat="tweet in tweets track by $index">
+      <img class="avatar" ng-src="{{tweet.user.profile_image_url}}" />
+      <div class="content">
+        <p class="user"><span class="name">{{tweet.user.name}}</span><span class="login">@{{tweet.user.screen_name}}</span></p>
+        <p class="text">{{tweet.text}}</p>
+      </div>
+    </li>
+  </ul>
+</div>

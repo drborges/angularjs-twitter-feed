@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>AngularJS: Extending the HTML Vocabulary</title>
+    <style type="text/css" media="all">
+      body {
+        background-color: #eee;
+        margin: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="/static/js/modules/tw.twitter/styles/main.css" title="" type="" />
+    <script type="text/javascript" src="/static/js/vendor/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/static/js/vendor/angular-animate/angular-animate.min.js"></script>
+    <script type="text/javascript" src="/static/js/vendor/socket.io-client/socket.io.js"></script>
+    <script type="text/javascript" src="/static/js/dist/app.js"></script>
+  </head>
+
+  <body ng-app="twTwitter">
+    <input type="text" ng-model="terms" />
+    <input type="button"
+           ng-click="trackedTerms = terms"
+           value="Track" />
+
+    <tw:feed track="{{trackedTerms}}">
+      <tw:report></tw:report>
+    </tw:feed>
+
+  </body>
+</html>

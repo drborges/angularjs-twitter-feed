@@ -1,0 +1,37 @@
+{
+  "name": "angularjs-twitter-feed",
+  "version": "0.0.0",
+  "homepage": "https://github.com/drborges/angularjs-twitter-feed",
+  "authors": [
+    "Diego Borges <drborges.cic@gmail.com>"
+  ],
+  "description": "Source code from AngularJS meetup Porto Alegre",
+  "keywords": [
+    "angularjs",
+    "meetup",
+    "poa",
+    "directives"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.1",
+    "angular": "*",
+    "socket.io-client": "~1.1.0",
+    "angular-animate": "~1.2.25"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.1",
+    "chai": "~1.9.0",
+    "angular-mocks": "~1.2.14",
+    "sinon-chai": "~2.5.0",
+    "sinonjs": "~1.8.2"
+  }
+}

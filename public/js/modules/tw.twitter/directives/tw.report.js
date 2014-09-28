@@ -3,7 +3,7 @@ angular.module('twTwitter.directives.twReport', ['twTwitter.directives.twFeed'])
   .directive('twReport', function () {
     return {
       scope: true,
-      restrict: 'E',
+      restrict: 'EA',
       require: '^twFeed',
       templateUrl: '/static/js/modules/tw.twitter/templates/tw.report.html',
 

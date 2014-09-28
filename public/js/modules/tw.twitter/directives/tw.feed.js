@@ -2,7 +2,7 @@ angular.module('twTwitter.directives.twFeed', ['twTwitter.services'])
 
   .directive('twFeed', function (TwitterFeed) {
     return {
-      restrict: 'E',
+      restrict: 'EA',
       transclude: true,
       templateUrl: '/static/js/modules/tw.twitter/templates/tw.feed.html',
 

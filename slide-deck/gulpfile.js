@@ -17,6 +17,12 @@ var pkg = require('./package.json'),
   path = require('path'),
   isDist = process.argv.indexOf('serve') === -1;
 
+gulp.task('cname', ['clean:js'], function() {
+  return gulp.src('src/CNAME')
+    .pipe(gulp.dest('dist/'))
+    .pipe(connect.reload());
+});
+
 gulp.task('js', ['clean:js'], function() {
   return gulp.src(['src/scripts/*.js'])
     .pipe(isDist ? through() : plumber())
@@ -101,7 +107,7 @@ gulp.task('watch', function() {
   ], ['js']);
 });
 
-gulp.task('deploy', ['build'], function(done) {
+gulp.task('deploy', ['build', 'cname'], function(done) {
   ghpages.publish(path.join(__dirname, 'dist'), { logger: gutil.log }, done);
 });
 

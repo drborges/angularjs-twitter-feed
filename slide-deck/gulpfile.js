@@ -18,7 +18,7 @@ var pkg = require('./package.json'),
   isDist = process.argv.indexOf('serve') === -1;
 
 gulp.task('js', ['clean:js'], function() {
-  return gulp.src('src/scripts/main.js')
+  return gulp.src(['src/scripts/*.js'])
     .pipe(isDist ? through() : plumber())
     .pipe(browserify({ transform: ['debowerify'], debug: !isDist }))
     .pipe(isDist ? uglify() : through())

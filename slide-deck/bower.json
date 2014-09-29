@@ -1,0 +1,7 @@
+{
+  "name": "presentation-angularjs-directives-extending-the-html-vocabulary",
+  "version": "0.0.0",
+  "dependencies": {
+    "prism": "gh-pages"
+  }
+}

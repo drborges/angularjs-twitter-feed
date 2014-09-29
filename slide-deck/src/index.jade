@@ -1,0 +1,135 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title AngularJS Directives: Extending the HTML Vocabulary
+
+    link(rel='stylesheet', type='text/css', href='build/build.css')
+    link(rel='stylesheet', type='text/css', href='build/tw.feed.css')
+
+  body
+
+    article
+
+      section
+        img.logo(src='images/tw_logo.png')
+        div.title
+          h2 AngularJS Directives
+          h4 Extending The HTML Vocabulary
+        div.presenter
+          span.name Diego Borges
+          span.twitter
+            img.tw(src="images/tw.jpg")
+            span.username dr_borges
+
+      section
+        div.title
+          h2 Agenda
+        ol
+          li Why Would I Want That?
+          li Extending The HTML Vocabulary
+          li Directives Lifecycle
+          li Quirks and Tricks
+
+      section
+        div.title
+          h2 Why Would I Do That?
+        div.quote
+          q Web Components usher in a new era of web development based on <b>encapsulated</b> and <b>interoperable</b> custom elements that extend HTML itself
+          p.author by Polymer Project
+        img.code(src="images/polymer.png" width=330 height=150)
+
+      section
+        div.title
+          h2 Extending The HTML Vocabulary
+        ul
+          li
+            p Spare me the details :)
+            img.code(src="images/feed-example1.png" width=300 height=25)
+          li
+            p How about composability?
+            img.code(src="images/feed-example2.png" width=250 height=45)
+          li
+            div.github
+              img.github(src="images/github.png" width=30 height=30)
+              span drborges/angularjs-twitter-feed
+
+      section
+        div.title
+          h2 Demo: Twitter Feed
+
+      section
+        div.title
+          h2 Directive Lifecycle
+        ul
+          li
+            img.code(src="images/lifecycle.png" width=220 height=100)
+          li
+            p Matching Directives: data-tw-feed, data-tw:feed, tw:feed, tw-feed ...
+          li
+            img.code(src="images/compile_link.png" width=250 height=25)
+          li
+            p Compile Template --> Link to Scope
+
+      section
+        div.title
+          h2 Quirks & Tricks
+
+      section
+        div.title
+          h2 Unit Testing
+          h4 Test Structure
+        img.code(src="images/unittest.png" width=430 height=230)
+
+      section
+        div.title
+          h2 Unit Testing
+          h4 Accessing Isolated Scope
+        img.code(src="images/isolate.png" width=450 height=100)
+
+      section
+        div.title
+          h2 Unit Testing
+          h4 Accessing Directive's Controller
+        img.code(src="images/controller.png" width=450 height=90)
+
+      section
+        div.title
+          h2 Unit Testing
+          h4 Directive With TemplateURL
+        ul
+          li
+            p Gulp + $templateCache Service
+          li
+            img.code(src="images/templateCache.png" width=330 height=55)
+          li
+            img.code(src="images/gulp.png" width=210 height=100)
+          li
+            img.code(src="images/beforeeach.png" width=320 height=25)
+
+      section
+        div.title
+          h2 Directive-to-Directive Communication
+        img.code(src="images/d2dc.png" width=480 height=250)
+
+      section
+        div.title
+          h3 &#x3C;tw:questions&#x3E;?&#x3C;/tw:questions&#x3E;
+
+      section
+        img.logo(src='images/tw_logo.png')
+        div.title
+          h2 Thanks
+        div.presenter
+          span.name Diego Borges
+          span.twitter
+            img.tw(src="images/tw.jpg")
+            span.username dr_borges
+
+    script(src='build/build.js')
+    script(src='build/vendor/socket.io.js')
+    script(src='build/vendor/jquery.min.js')
+    script(src='build/vendor/angular.min.js')
+    script(src='build/vendor/tw.feed.min.js')
+    script(src='build/vendor/tw.feed.templates.js')

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>AngularJS Directives: Extending the HTML Vocabulary</title>
+    <link rel="stylesheet" type="text/css" href="build/build.css">
+    <link rel="stylesheet" type="text/css" href="build/monokai_sublime.css">
+    <link rel="stylesheet" type="text/css" href="build/tw.feed.css">
+  </head>
+  <body>
+    <article>
+      <section><img src="images/tw_logo.png" class="logo">
+        <div class="title">
+          <h2>AngularJS Directives</h2>
+          <h4>Extending The HTML Vocabulary</h4>
+        </div>
+        <div class="presenter"><span class="name">Diego Borges</span><span class="twitter"><img src="images/tw.jpg" class="tw"><span class="username">@dr_borges</span></span></div>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Agenda</h2>
+        </div><br>
+        <ol>
+          <li>Why Would I Do That?</li>
+          <li>Extending The HTML Vocabulary</li>
+          <li>Directives Lifecycle</li>
+          <li>Quirks and Tricks</li>
+        </ol>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Why Would I Do That?</h2>
+        </div>
+        <div class="quote">
+          <q>Web Components usher in a new era of web development based on <b>encapsulated</b> and <b>interoperable</b> custom elements that extend HTML itself</q>
+          <p class="author">by Polymer Project</p><img src="images/p-logo.svg" width="40" height="40">
+        </div>
+        <pre><code class="html">&lt;!-- Import element --&gt;
+&lt;link rel=&quot;import&quot; href=&quot;google-map.html&quot;&gt;
+
+&lt;!-- Use element --&gt;
+&lt;google-map lat=&quot;37.790&quot; long=&quot;-122.390&quot;&gt;&lt;/google-map&gt;
+</code></pre>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Extending The HTML Vocabulary</h2>
+        </div>
+        <ul>
+          <li>
+            <p>Spare me the details :)</p>
+            <pre><code class="html">&lt;tw-feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/tw-feed&gt;</code></pre>
+          </li>
+          <li>
+            <p>How about composability?</p>
+            <pre><code class="html">&lt;tw-feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;
+  &lt;tw-report&gt;&lt;/tw-repot&gt;
+&lt;/tw-feed&gt;
+</code></pre>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Demo: Twitter Feed</h2>
+        </div>
+        <div class="github"><img src="images/github.png" width="30" height="30" class="github"><span>drborges/angularjs-twitter-feed</span></div>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Directive Lifecycle</h2>
+        </div>
+        <ul>
+          <li>
+            <pre><code class="html">&lt;html&gt;
+  &lt;head&gt;&lt;/head&gt;
+  &lt;body ng-app=&quot;twTwitter&quot;&gt;
+  
+    &lt;tw-feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;
+      &lt;tw-report&gt;&lt;/tw-report&gt;
+    &lt;/tw-feed&gt;
+    
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </li>
+          <li>
+            <p>Matching Directives: data-tw-feed, data-tw:feed, tw:feed, tw-feed ...</p>
+          </li>
+          <li>
+            <pre><code class="javascript">var element = $compile(template)($scope)</code></pre>
+          </li>
+          <li>
+            <p>Compile Template --> Link to Scope</p>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Quirks & Tricks</h2>
+        </div>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Directive Overview</h2>
+        </div>
+        <pre><code class="javascript">&lt;tw-feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/tw-feed&gt;</code><code class="javascript">&lt;div tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/div&gt;</code></pre>
+        <pre><code class="javascript">myApp.directive('twFeed', function (TwitterFeed) {
+  return {
+    restrict: 'EA',
+    transclude: true,
+    templateUrl: '/static/js/modules/tw.twitter/templates/tw.feed.html',
+    
+    scope: {
+      trackingTerms: '@track' // or '=track' or '&callback'
+    },
+    
+    // compile: function (element, attr) {
+    //   return function postLink(scope, element, attr) { ... }
+    // },
+    
+    // link: {
+    //   pre: function preLink(scope, iElement, iAttrs, controller) { ... },
+    //   post: function postLink(scope, iElement, iAttrs, controller) { ... }
+    // },
+    
+    link: function (scope, element, attrs, controller) {  /* ...  */ },
+    controller: function ($scope) { /* ... */ }
+  };
+});
+</code></pre>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Unit Testing</h2>
+          <h4>Test Structure</h4>
+        </div>
+        <pre><code class="javascript">describe('MyModule', function () {
+  var $compile, $scope, MyService
+  
+  beforeEach(<i class="highlight">module</i>('MyModule', 'AnotherModule'))
+  beforeEach(<i class="highlight">inject</i>(function (_$compile_, $rootScope, _MyService_) {
+    $compile = _$compile_
+    $scope = $rootScope
+    MyService = fixtures.mockService(_MyService_)
+  }))
+  
+  describe('Scenario', function () {
+    it('Test Case 1', function () { /* Omitted code */ })
+    it('Test Case 2', function () { /* Omitted code */ })
+  })
+})
+</code></pre>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Unit Testing</h2>
+          <h4>Accessing Isolated Scope</h4>
+        </div>
+        <pre><code class="javascript">it('Test case description', function () {
+  var element = $compile('&lt;tw:feed&gt;&lt;/tw:feed&gt;')($scope)
+  $scope.$digest()
+  
+  element<i class="highlight">.isolateScope()</i>.trackingTerms = '#angularjs, #poa'
+  $scope.$digest()
+  
+  // Omitted expectations
+})
+</code></pre>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Unit Testing</h2>
+          <h4>Accessing Directive's Controller</h4>
+        </div>
+        <pre><code class="javascript">it('Test case description', function () {
+  var template = '&lt;tw:feed track="#angularjs"&gt;&lt;/tw:feed&gt;'
+  
+  var element = $compile(template)($scope)
+  $scope.$digest()
+  
+  var api = element<i class="highlight">.controller</i>('twFeed')
+  
+  // Omitted expectations
+})
+</code></pre>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Unit Testing</h2>
+          <h4>Directive With TemplateURL</h4>
+        </div>
+        <ul>
+          <li>
+            <p>gulp-angular-templatecache</p>
+          </li>
+          <li>
+            <pre><code class="javascript">var myApp = angular.module('myApp', []);
+myApp.run(function(<i class="highlight">$templateCache</i>) {
+  $templateCache<i class="highlight">.put</i>('templateId.html', 'This is the content of the template');
+});</code></pre>
+          </li>
+          <li>
+            <pre><code class="javascript">var templateCache = require('gulp-angular-templatecache')
+
+gulp.task('concat.templates', function () {
+  var options = {
+    standalone: true,
+    module: 'twTwitter.templates',
+    root: '/static/js/modules/'
+  }
+  return gulp.src(files.src.app.templates)
+    .pipe(<i class="highlight">templateCache</i>(options))
+    .pipe(gulp.dest(files.bundle.path))
+})</code></pre>
+          </li>
+          <li>
+            <pre><code class="javascript">beforeEach(module('twTwitter.directives.twFeed', <i class="highlight">'twTwitter.templates'</i>))</code></pre>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <div class="title">
+          <h2>Directive-to-Directive Communication</h2>
+        </div>
+        <pre><code class="javascript">myApp.directive('twFeed', function (<i class="highlight">TwitterFeed</i>) {
+  return {
+    // Omitted code
+    controller: function ($scope, $element, $attrs) {
+      var api = this;
+      
+      // Omitted code
+      
+      api.on = function (event, listener) {
+        listeners[event].push(listener);
+      };
+    }
+  };
+});
+</code><code class="javascript">myApp.directive('twReport', function () {
+  return {
+    // Omitted code
+    require: '<i class="highlight">^twFeed</i>',
+    link: function (scope, element, attrs, <i class="highlight">feedApi</i>) {
+      scope.tweetCount = 0;
+      
+      // Omitted code
+      
+      feedApi.on('tweet', function (tweet) {
+        scope.$apply(function () {
+          scope.tweetCount += 1;
+        });
+      });
+    },
+  }
+});
+</code></pre>
+      </section>
+      <section>
+        <div class="title">
+          <h3>&#x3C;tw:questions&#x3E;?&#x3C;/tw:questions&#x3E;</h3>
+        </div>
+      </section>
+      <section><img src="images/tw_logo.png" class="logo">
+        <div class="title">
+          <h2>Thanks</h2>
+        </div>
+        <div class="presenter"><span class="name">Diego Borges</span><span class="twitter"><img src="images/tw.jpg" class="tw"><span class="username">@dr_borges</span></span></div>
+      </section>
+    </article>
+    <script src="build/build.js"></script>
+    <script src="build/highlight.pack.js"></script>
+    <script src="build/vendor/socket.io.js"></script>
+    <script src="build/vendor/jquery.min.js"></script>
+    <script src="build/vendor/angular.min.js"></script>
+    <script src="build/vendor/tw.feed.min.js"></script>
+    <script src="build/vendor/tw.feed.templates.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

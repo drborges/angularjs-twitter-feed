@@ -11,11 +11,15 @@ angular.module('twTwitter.directives.twReport', ['twTwitter.directives.twFeed'])
         scope.tweetCount = 0;
 
         feedApi.on('tweet', function (tweet) {
-          ++scope.tweetCount;
+          scope.$apply(function () {
+            scope.tweetCount += 1;
+          });
         });
 
         feedApi.on('track', function (terms) {
-          scope.trackedTerms = terms;
+          scope.$apply(function () {
+            scope.trackedTerms = terms;
+          });
         });
       },
     }

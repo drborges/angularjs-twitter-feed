@@ -30,7 +30,7 @@ describe('twTwitter.directives.twReport', function () {
 
       var twFeedApi = twFeed.controller('twFeed')
       twFeedApi.emit('tweet', 'a new tweet')
-      $scope.$digest()
+      // $scope.$digest()
 
       expect(twFeed.find('.report .tweet-count .count').text()).to.equal('1')
     })
@@ -41,7 +41,6 @@ describe('twTwitter.directives.twReport', function () {
 
       var twFeedApi = twFeed.controller('twFeed')
       twFeedApi.emit('track', '#angularjs, #javascript')
-      $scope.$digest()
 
       expect(twFeed.find('.report .tracked-terms .terms').text()).to.equal('#angularjs, #javascript')
       expect(twFeed.find('.report .tracked-terms .no-terms')).to.have.class('ng-hide')

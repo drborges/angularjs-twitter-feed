@@ -40,6 +40,7 @@ html
         div.quote
           q Web Components usher in a new era of web development based on <b>encapsulated</b> and <b>interoperable</b> custom elements that extend HTML itself
           p.author by Polymer Project
+          img(src="images/p-logo.svg" width=40 height=40)
 
         pre
           code.html.
@@ -57,14 +58,14 @@ html
             p Spare me the details :)
             pre
               code.html.
-                &lt;tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/tw:feed&gt;
+                &lt;tw-feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/tw-feed&gt;
           li
             p How about composability?
             pre
               code.html.
-                &lt;tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;
-                  &lt;tw:report&gt;&lt;/tw:repot&gt;
-                &lt;/tw:feed&gt;
+                &lt;tw-feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;
+                  &lt;tw-report&gt;&lt;/tw-repot&gt;
+                &lt;/tw-feed&gt;
 
       section
         div.title
@@ -84,9 +85,9 @@ html
                   &lt;head&gt;&lt;/head&gt;
                   &lt;body ng-app=&quot;twTwitter&quot;&gt;
 
-                    &lt;tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;
-                      &lt;tw:report&gt;&lt;/tw:report&gt;
-                    &lt;/tw:feed&gt;
+                    &lt;tw-feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;
+                      &lt;tw-report&gt;&lt;/tw-report&gt;
+                    &lt;/tw-feed&gt;
 
                   &lt;/body&gt;
                 &lt;/html&gt;
@@ -108,7 +109,9 @@ html
           h2 Directive Overview
         pre
           code.javascript.
-            &lt;tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/tw:feed&gt;
+            &lt;tw-feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/tw-feed&gt;
+          code.javascript.
+            &lt;div tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/div&gt;
         pre
           code.javascript.
             myApp.directive('twFeed', function (TwitterFeed) {

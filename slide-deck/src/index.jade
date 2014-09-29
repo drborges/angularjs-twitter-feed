@@ -6,6 +6,7 @@ html
     title AngularJS Directives: Extending the HTML Vocabulary
 
     link(rel='stylesheet', type='text/css', href='build/build.css')
+    link(rel='stylesheet', type='text/css', href='build/monokai_sublime.css')
     link(rel='stylesheet', type='text/css', href='build/tw.feed.css')
 
   body
@@ -21,11 +22,12 @@ html
           span.name Diego Borges
           span.twitter
             img.tw(src="images/tw.jpg")
-            span.username dr_borges
+            span.username @dr_borges
 
       section
         div.title
           h2 Agenda
+        br
         ol
           li Why Would I Do That?
           li Extending The HTML Vocabulary
@@ -38,7 +40,14 @@ html
         div.quote
           q Web Components usher in a new era of web development based on <b>encapsulated</b> and <b>interoperable</b> custom elements that extend HTML itself
           p.author by Polymer Project
-        img.code(src="images/polymer.png" width=330 height=150)
+
+        pre
+          code.html.
+            &lt;!-- Import element --&gt;
+            &lt;link rel=&quot;import&quot; href=&quot;google-map.html&quot;&gt;
+
+            &lt;!-- Use element --&gt;
+            &lt;google-map lat=&quot;37.790&quot; long=&quot;-122.390&quot;&gt;&lt;/google-map&gt;
 
       section
         div.title
@@ -46,10 +55,16 @@ html
         ul
           li
             p Spare me the details :)
-            img.code(src="images/feed-example1.png" width=300 height=25)
+            pre
+              code.html.
+                &lt;tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/tw:feed&gt;
           li
             p How about composability?
-            img.code(src="images/feed-example2.png" width=250 height=45)
+            pre
+              code.html.
+                &lt;tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;
+                  &lt;tw:report&gt;&lt;/tw:repot&gt;
+                &lt;/tw:feed&gt;
 
       section
         div.title
@@ -63,11 +78,24 @@ html
           h2 Directive Lifecycle
         ul
           li
-            img.code(src="images/lifecycle.png" width=220 height=100)
+            pre
+              code.html.
+                &lt;html&gt;
+                  &lt;head&gt;&lt;/head&gt;
+                  &lt;body ng-app=&quot;twTwitter&quot;&gt;
+
+                    &lt;tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;
+                      &lt;tw:report&gt;&lt;/tw:report&gt;
+                    &lt;/tw:feed&gt;
+
+                  &lt;/body&gt;
+                &lt;/html&gt;
           li
             p Matching Directives: data-tw-feed, data-tw:feed, tw:feed, tw-feed ...
           li
-            img.code(src="images/compile_link.png" width=250 height=25)
+            pre
+              code.javascript.
+                var element = $compile(template)($scope)
           li
             p Compile Template --> Link to Scope
 
@@ -77,21 +105,90 @@ html
 
       section
         div.title
+          h2 Directive Overview
+        pre
+          code.javascript.
+            &lt;tw:feed track=&quot;#AngularJS #POA #MeetUp&quot;&gt;&lt;/tw:feed&gt;
+        pre
+          code.javascript.
+            myApp.directive('twFeed', function (TwitterFeed) {
+              return {
+                restrict: 'EA',
+                transclude: true,
+                templateUrl: '/static/js/modules/tw.twitter/templates/tw.feed.html',
+
+                scope: {
+                  trackingTerms: '@track' // or '=track' or '&callback'
+                },
+
+                // compile: function (element, attr) {
+                //   return function postLink(scope, element, attr) { ... }
+                // },
+
+                // link: {
+                //   pre: function preLink(scope, iElement, iAttrs, controller) { ... },
+                //   post: function postLink(scope, iElement, iAttrs, controller) { ... }
+                // },
+
+                link: function (scope, element, attrs, controller) {  /* ...  */ },
+                controller: function ($scope) { /* ... */ }
+              };
+            });
+
+      section
+        div.title
           h2 Unit Testing
           h4 Test Structure
-        img.code(src="images/unittest.png" width=430 height=230)
+        pre
+          code.javascript.
+            describe('MyModule', function () {
+              var $compile, $scope, MyService
+
+              beforeEach(<i class="highlight">module</i>('MyModule', 'AnotherModule'))
+              beforeEach(<i class="highlight">inject</i>(function (_$compile_, $rootScope, _MyService_) {
+                $compile = _$compile_
+                $scope = $rootScope
+                MyService = fixtures.mockService(_MyService_)
+              }))
+
+              describe('Scenario', function () {
+                it('Test Case 1', function () { /* Omitted code */ })
+                it('Test Case 2', function () { /* Omitted code */ })
+              })
+            })
 
       section
         div.title
           h2 Unit Testing
           h4 Accessing Isolated Scope
-        img.code(src="images/isolate.png" width=450 height=100)
+        pre
+          code.javascript.
+            it('Test case description', function () {
+              var element = $compile('&lt;tw:feed&gt;&lt;/tw:feed&gt;')($scope)
+              $scope.$digest()
+
+              element<i class="highlight">.isolateScope()</i>.trackingTerms = '#angularjs, #poa'
+              $scope.$digest()
+
+              // Omitted expectations
+            })
 
       section
         div.title
           h2 Unit Testing
           h4 Accessing Directive's Controller
-        img.code(src="images/controller.png" width=450 height=90)
+        pre
+          code.javascript.
+            it('Test case description', function () {
+              var template = '&lt;tw:feed track="#angularjs"&gt;&lt;/tw:feed&gt;'
+
+              var element = $compile(template)($scope)
+              $scope.$digest()
+
+              var api = element<i class="highlight">.controller</i>('twFeed')
+
+              // Omitted expectations
+            })
 
       section
         div.title
@@ -99,18 +196,71 @@ html
           h4 Directive With TemplateURL
         ul
           li
-            p Gulp + $templateCache Service
+            p gulp-angular-templatecache
           li
-            img.code(src="images/templateCache.png" width=330 height=55)
+            pre
+              code.javascript.
+                var myApp = angular.module('myApp', []);
+                myApp.run(function(<i class="highlight">$templateCache</i>) {
+                  $templateCache<i class="highlight">.put</i>('templateId.html', 'This is the content of the template');
+                });
           li
-            img.code(src="images/gulp.png" width=210 height=100)
-          li
-            img.code(src="images/beforeeach.png" width=320 height=25)
+            pre
+              code.javascript.
+                var templateCache = require('gulp-angular-templatecache')
 
+                gulp.task('concat.templates', function () {
+                  var options = {
+                    standalone: true,
+                    module: 'twTwitter.templates',
+                    root: '/static/js/modules/'
+                  }
+                  return gulp.src(files.src.app.templates)
+                    .pipe(<i class="highlight">templateCache</i>(options))
+                    .pipe(gulp.dest(files.bundle.path))
+                })
+          li
+            pre
+              code.javascript.
+                beforeEach(module('twTwitter.directives.twFeed', <i class="highlight">'twTwitter.templates'</i>))
       section
         div.title
           h2 Directive-to-Directive Communication
-        img.code(src="images/d2dc.png" width=480 height=250)
+        pre
+          code.javascript.
+            myApp.directive('twFeed', function (<i class="highlight">TwitterFeed</i>) {
+              return {
+                // Omitted code
+                controller: function ($scope, $element, $attrs) {
+                  var api = this;
+
+                  // Omitted code
+
+                  api.on = function (event, listener) {
+                    listeners[event].push(listener);
+                  };
+                }
+              };
+            });
+
+          code.javascript.
+              myApp.directive('twReport', function () {
+                return {
+                  // Omitted code
+                  require: '<i class="highlight">^twFeed</i>',
+                  link: function (scope, element, attrs, <i class="highlight">feedApi</i>) {
+                    scope.tweetCount = 0;
+
+                    // Omitted code
+
+                    feedApi.on('tweet', function (tweet) {
+                      scope.$apply(function () {
+                        scope.tweetCount += 1;
+                      });
+                    });
+                  },
+                }
+              });
 
       section
         div.title
@@ -124,11 +274,14 @@ html
           span.name Diego Borges
           span.twitter
             img.tw(src="images/tw.jpg")
-            span.username dr_borges
+            span.username @dr_borges
 
     script(src='build/build.js')
+    script(src='build/highlight.pack.js')
     script(src='build/vendor/socket.io.js')
     script(src='build/vendor/jquery.min.js')
     script(src='build/vendor/angular.min.js')
     script(src='build/vendor/tw.feed.min.js')
     script(src='build/vendor/tw.feed.templates.js')
+    script(type='text/javascript').
+      hljs.initHighlightingOnLoad();

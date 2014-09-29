@@ -14,7 +14,7 @@ app.get('/', function(req, res){
   res.render('index.html');
 });
 
-var server = app.listen(8080)
+var server = app.listen(8000)
   , io = SocketIO(server)
   , tw = TweetStream(require('./config.json'));
 

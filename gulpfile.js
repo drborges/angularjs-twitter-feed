@@ -43,7 +43,7 @@ var files = {
 
 gulp.task('dist', [ 'min' ])
 gulp.task('concat', [ 'clean', 'concat.app', 'concat.spec', 'concat.templates' ])
-gulp.task('default', ['server'])
+gulp.task('default', ['dist', 'server'])
 
 gulp.task('server', function () {
   nodemon({ script: 'app.js', ext: 'js', ignore: [] })
